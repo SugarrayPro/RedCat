@@ -1,0 +1,74 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  email: String!
+  roles: [Role!]!
+  articles(skip: Int! = 0, take: Int! = 10): [Article!]!
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+type Article {
+  id: ID!
+  title: String!
+  content: String!
+  user: User!
+}
+
+type UpdateUserResponse {
+  success: Boolean!
+}
+
+type SignInResponse {
+  access_token: String!
+  refresh_token: String!
+  user: User
+}
+
+type Query {
+  users(skip: Int! = 0, take: Int! = 10): [User!]!
+  allArticles(skip: Int! = 0, take: Int! = 10): [Article!]!
+  myArticles(skip: Int! = 0, take: Int! = 10): [Article!]!
+}
+
+type Mutation {
+  signUp(signUpInput: SignUpInput!): User!
+  signIn(signInInput: SignInInput!): SignInResponse!
+  refreshTokens(input: RefreshTokenInput!): SignInResponse!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): UpdateUserResponse!
+  removeUser(id: String!): Boolean!
+  createArticle(createArticleInput: ArticleInput!): Boolean!
+  updateArticle(id: String!, updateArticleInput: ArticleInput!): Boolean!
+  removeArticle(id: String!): Boolean!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  roles: [Role!]
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input RefreshTokenInput {
+  refreshToken: String!
+}
+
+input UpdateUserInput {
+  roles: [Role!]!
+}
+
+input ArticleInput {
+  title: String!
+  content: String!
+}
